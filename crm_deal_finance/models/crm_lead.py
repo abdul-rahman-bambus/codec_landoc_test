@@ -29,7 +29,7 @@ class CrmLead(models.Model):
     )
 
     expense_ids = fields.One2many(
-        'hr.expense',
+        'deal.expense',
         'lead_id',
         string='Expenses'
     )
@@ -101,14 +101,14 @@ class CrmLead(models.Model):
     )
 
     can_register_vendor_payment = fields.Boolean(
-        compute="_compute_vendor_payment_visibility"
+        compute='_compute_button_visibility'
     )
 
     # -------------------------------------------------
     # COMPUTE FINANCIALS
     # -------------------------------------------------
 
-    @api.depends('invoice_ids', 'vendor_bill_ids', 'expense_ids')
+    @api.depends('invoice_ids', 'vendor_bill_ids', 'expense_ids.state', 'expense_ids.amount')
     def _compute_financials(self):
         for lead in self:
 
@@ -131,8 +131,8 @@ class CrmLead(models.Model):
 
             expense_amount = sum(
                 lead.expense_ids.filtered(
-                    lambda e: e.state in ('approved', 'done')
-                ).mapped('total_amount')
+                    lambda e: e.state == 'posted'
+                ).mapped('amount')
             ) + vendor_paid
 
             lead.ticket_invoiced_amount = invoiced
@@ -253,11 +253,12 @@ class CrmLead(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Log Expense',
-            'res_model': 'hr.expense',
+            'res_model': 'deal.expense',
             'view_mode': 'form',
-            'target': 'current',
+            'target': 'new',
             'context': {
                 'default_lead_id': self.id,
+                'default_auto_post': True,
             }
         }
 
