@@ -37,8 +37,7 @@ class DealExpense(models.Model):
     expense_account_id = fields.Many2one(
         'account.account',
         required=True,
-        domain="[('deprecated', '=', False), ('account_type', '=', 'expense')]",
-        check_company=True,
+        domain="[('deprecated', '=', False), ('company_id', '=', company_id), ('account_type', '=', 'expense')]",
     )
     notes = fields.Text()
     auto_post = fields.Boolean(default=True)
