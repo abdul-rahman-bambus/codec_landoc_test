@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_landoc_service_user,crm.landoc.service user,model_crm_landoc_service,custom_landoc.group_landoc_user,1,1,1,0
+access_crm_landoc_service_manager,crm.landoc.service manager,model_crm_landoc_service,custom_landoc.group_landoc_manager,1,1,1,1
+access_survey_details_line_user,survey.details.line  user,model_survey_details_line,custom_landoc.group_landoc_user,1,1,1,0
+access_survey_details_line_manager,survey.details.line  manager,model_survey_details_line,custom_landoc.group_landoc_manager,1,1,1,1
+access_plot_details_line_user,plot.details.line  user,model_plot_details_line,custom_landoc.group_landoc_user,1,1,1,0
+access_plot_details_line_manager,plot.details.line  manager,model_plot_details_line,custom_landoc.group_landoc_manager,1,1,1,1
+access_flat_details_line_user,flat.details.line  user,model_flat_details_line,custom_landoc.group_landoc_user,1,1,1,0
+access_flat_details_line_manager,flat.details.line  manager,model_flat_details_line,custom_landoc.group_landoc_manager,1,1,1,1
+access_house_details_line_user,house.details.line  user,model_house_details_line,custom_landoc.group_landoc_user,1,1,1,0
+access_house_details_line_manager,house.details.line  manager,model_house_details_line,custom_landoc.group_landoc_manager,1,1,1,1
+access_boundary_details_line_user,boundary.details.line  user,model_boundary_details_line,custom_landoc.group_landoc_user,1,1,1,0
+access_boundary_details_line_manager,boundary.details.line  manager,model_boundary_details_line,custom_landoc.group_landoc_manager,1,1,1,1

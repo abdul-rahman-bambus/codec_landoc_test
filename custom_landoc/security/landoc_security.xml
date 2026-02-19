@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Category -->
+        <record id="landoc_category" model="ir.module.category">
+            <field name="name">Landoc Category</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <!-- Group: User -->
+        <record id="group_landoc_user" model="res.groups">
+            <field name="name">Landoc User</field>
+            <field name="category_id" ref="custom_landoc.landoc_category"/>
+        </record>
+
+        <!-- Group: Manager -->
+        <record id="group_landoc_manager" model="res.groups">
+            <field name="name">Landoc Manager</field>
+            <field name="category_id" ref="custom_landoc.landoc_category"/>
+            <field name="implied_ids" eval="[(4, ref('group_landoc_user'))]"/>
+        </record>
+
+    </data>
+</odoo>
+

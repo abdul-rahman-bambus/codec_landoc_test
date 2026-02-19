@@ -1,0 +1,121 @@
+
+<odoo>
+    <record id="crm_lead_finance_button" model="ir.ui.view">
+        <field name="name">crm.lead.finance.button</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//header" position="inside">
+                <button name="action_open_finance_wizard"
+                    type="object"
+                    string="Financial Actions"
+                    class="btn-primary"
+                    invisible="type != 'opportunity'"/>
+            </xpath> -->
+            <xpath expr="/form/sheet/notebook" position="inside">
+                <page string="Financial">
+
+                <!-- ACTIONS -->
+                <group string="Actions" class="mt-6">
+                    <div class="d-flex gap-2 flex-wrap">
+
+                    <!-- <button name="action_confirm_quotation"
+                            type="object"
+                            string="Confirm Quotation"
+                            invisible="not can_confirm_quotation"/>
+
+                    <button name="action_create_invoice"
+                            type="object"
+                            string="Create Invoice"
+                            invisible="not can_create_invoice"/>
+
+                    <button name="action_register_payment"
+                            type="object"
+                            string="Register Payment"
+                            class="btn-primary"
+                            invisible="not can_register_payment"/>
+
+                    <button name="action_view_crm_vendor_bills"
+                            type="object"
+                            string="Add Vendor Bill"/>
+
+                    <button name="action_register_vendor_payment"
+                            type="object"
+                            string="Pay Vendor"
+                            invisible="not can_register_vendor_payment"/>
+
+                    <button name="action_log_expense"
+                            type="object"
+                            string="Add Expense"/> -->
+
+                    <button name="action_confirm_quotation"
+                            type="object"
+                            string="Confirm Quotation"/>
+
+                    <button name="action_create_invoice"
+                            type="object"
+                            string="Create Invoice"/>
+
+                    <button name="action_register_payment"
+                            type="object"
+                            string="Register Payment"
+                            class="btn-primary"/>
+
+                    <button name="action_view_crm_vendor_bills"
+                            type="object"
+                            string="Add Vendor Bill"/>
+
+                    <button name="action_register_vendor_payment"
+                            type="object"
+                            string="Pay Vendor"/>
+
+                    <button name="action_log_expense"
+                            type="object"
+                            string="Add Expense"/>
+
+                </div>
+                </group>
+
+                <!-- SALE ORDERS -->
+                <group string="Quotations">
+                    <field name="sale_order_ids" widget="one2many_list" nolabel="1" create="0" delete="0"/>
+                </group>
+
+                <!-- INVOICES -->
+                <group string="Invoices">
+                    <field name="invoice_ids"
+                           nolabel="1"
+                           readonly="1"
+                           create="0" delete="0"
+                           options="{'no_open': True}"/>
+                </group>
+
+                <!-- VENDOR BILLS -->
+                <group string="Vendor Bills">
+                    <field name="vendor_bill_ids"
+                           nolabel="1"
+                           readonly="1"
+                           create="0" delete="0"
+                           options="{'no_open': True}"/>
+                </group>
+
+                <!-- EXPENSES -->
+                <group string="Landoc Expenses">
+                    <field name="expense_ids" widget="one2many_list" nolabel="1"/>
+                </group>
+
+                <!-- FINANCIAL SUMMARY -->
+                <group string="Financial Summary" col="4">
+                    <field name="ticket_invoiced_amount" readonly="1"/>
+                    <field name="ticket_collected_amount" readonly="1"/>
+                    <field name="ticket_outstanding_amount" readonly="1"/>
+                    <field name="ticket_expense_amount" readonly="1"/>
+                    <field name="ticket_accounting_margin" readonly="1"/>
+                    <field name="ticket_cash_margin" readonly="1"/>
+                    <field name="ticket_collection_ratio" readonly="1"/>
+                </group>
+            </page>
+        </xpath>
+        </field>
+    </record>
+</odoo>

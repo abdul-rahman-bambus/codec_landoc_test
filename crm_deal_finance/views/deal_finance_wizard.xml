@@ -1,0 +1,86 @@
+<odoo>
+    <record id="deal_finance_wizard_form" model="ir.ui.view">
+        <field name="name">deal.finance.wizard.form</field>
+        <field name="model">deal.finance.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Deal Financial Actions">
+                <sheet>
+
+                    <!-- Lead -->
+                    <group>
+                        <field name="lead_id" readonly="1"/>
+                    </group>
+
+                    <!-- SALE ORDERS ROW -->
+                    <div class="o_horizontal align-items-center mt-2 mb-2">
+                        <span class="o_form_label me-2">Sale Orders</span>
+
+                        <field name="sale_order_id"
+                               nolabel="1"
+                               readonly="1"
+                               class="me-2"/>
+
+                        <button name="action_open_sale_orders"
+                                type="object"
+                                string="View"
+                                class="btn-link"
+                                icon="fa-external-link"/>
+                    </div>
+
+                    <!-- INVOICES ROW -->
+                    <div class="o_horizontal align-items-center mb-3">
+                        <span class="o_form_label me-2">Invoices</span>
+
+                        <button name="action_open_invoices"
+                                type="object"
+                                string="View"
+                                class="btn-link"
+                                icon="fa-external-link"/>
+                    </div>
+
+                    <!-- Hidden technical fields -->
+                    <group invisible="1">
+                        <field name="company_id"/>
+                        <field name="analytic_account_id"/>
+                        <field name="currency_id"/>
+                    </group>
+
+                    <!-- ACTIONS -->
+                    <group string="Actions">
+                        <field name="create_invoice"/>
+                        <field name="create_payment"/>
+                    </group>
+
+                    <!-- PAYMENT DETAILS (ONLY WHEN CREATE PAYMENT) -->
+                    <group string="Payment Details" invisible="not create_payment">
+                        <field name="total_quoted_amount" readonly="1"/>
+                        <field name="total_invoiced_amount" readonly="1"/>
+                        <field name="total_paid_amount" readonly="1"/>
+                        <field name="total_outstanding_amount" readonly="1"/>
+
+                        <separator string="Payment"/>
+
+                        <field name="customer_payment_amount"/>
+                        <field name="customer_payment_journal_id"/>
+                    </group>
+
+                    <!-- FUTURE EXTENSIONS -->
+                    <group string="Other Actions">
+                        <field name="create_vendor_bill"/>
+                        <field name="create_vendor_payment"/>
+                        <field name="create_expense"/>
+                    </group>
+
+                    <footer>
+                        <button name="action_confirm"
+                                type="object"
+                                string="Confirm"
+                                class="btn-primary"/>
+                        <button string="Cancel" special="cancel"/>
+                    </footer>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

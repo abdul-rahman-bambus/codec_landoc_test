@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <!-- Category -->
+        <record id="crm_category" model="ir.module.category">
+            <field name="name">CRM Category</field>
+            <field name="sequence">1</field>
+        </record>
+
+        <!-- Group: User -->
+        <record id="group_crm_user" model="res.groups">
+            <field name="name">CRM User</field>
+            <field name="category_id" ref="custom_crm.crm_category"/>
+        </record>
+
+        <!-- Group: Manager -->
+        <record id="group_crm_manager" model="res.groups">
+            <field name="name">CRM Manager</field>
+            <field name="category_id" ref="custom_crm.crm_category"/>
+            <field name="implied_ids" eval="[(4, ref('group_crm_user'))]"/>
+        </record>
+
+    </data>
+</odoo>
+

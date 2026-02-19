@@ -1,0 +1,13 @@
+
+<odoo>
+    <record id="view_hr_expense_form_inherit_crm_lead" model="ir.ui.view">
+        <field name="name">hr.expense.form.crm.lead</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.view_expense_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group" position="inside">
+                <field name="lead_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

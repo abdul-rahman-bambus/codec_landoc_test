@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_crm_landoc_service_tree" model="ir.ui.view">
+        <field name="name">crm.landoc.service.list</field>
+        <field name="model">crm.landoc.service</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="name"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_crm_landoc_service_form" model="ir.ui.view">
+        <field name="name">crm.landoc.service.form</field>
+        <field name="model">crm.landoc.service</field>
+        <field name="arch" type="xml">
+            <form string="City" create="0">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" required="1" readonly="1" placeholder="EC Service"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="service_category_id" readonly="1" required="1"/>
+                            <field name="is_propertychecklist_needed" invisible="1"/>
+                            <field name="property_type_id" required="is_propertychecklist_needed" readonly="1" invisible="not is_propertychecklist_needed"/>
+                            <field name="workflow_master_id" readonly="1" required="1"/>
+                        </group>
+                        <group>
+                            <field name="service_count" invisible="1"/>
+                            <field name="is_ec" invisible="1"/>
+                            <field name="service_id"   force_save="1" required="1"
+                                   readonly="1" invisible="service_count == 1"/>
+                            <field name="lead_id" readonly="1" required="1"/>
+                        </group>
+                    </group>
+                    <group string="Registrar Information" col="3">
+                        <group>
+                            <field name="zone_id" placeholder="Select Zone" readonly="1" required="1"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="district_id" placeholder="Select DRO" required="1"
+                                   domain="[('zone_id', '=', zone_id)]" readonly="1"
+                                   options="{'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="sro_id" placeholder="Select SRO" readonly="1" required="1"
+                                   domain="[('district_id', '=', district_id)]"
+                                   options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group/>
+                    <notebook>
+                        <page string="Encumbrance Certificate" invisible="not is_ec">
+                            <group>
+                                <group>
+                                    <field name="ec_start_date" required="is_ec"/>
+                                </group>
+                                <group>
+                                    <field name="ec_end_date" required="is_ec"/>
+                                    <field name="ec_end_date_warning" string=" " class="text-danger"
+                                           invisible="not ec_end_date_warning" readonly="1"/>
+                                </group>
+                            </group>
+                            <notebook>
+                                <page string="Survey Details">
+                                    <group>
+                                        <group>
+                                            <field name="ec_village_id" placeholder="Select Village"
+                                                   domain="[('sro_id', '=', sro_id)]"
+                                                   required="not survey_details_line and is_ec"
+                                                   options="{'no_create': True}"/>
+                                            <field name="sub_division_no"/>
+                                        </group>
+                                        <group>
+                                            <field name="survey_no" required="not survey_details_line and is_ec"/>
+                                            <button name="action_survey_details" class="oe_highlight" type="object"
+                                                    string="Add"/>
+                                        </group>
+                                        <group/>
+                                    </group>
+                                    <group invisible="not survey_details_line">
+                                        <group string="Report">
+                                            <field name="survey_details_line" nolabel="1">
+                                                <list create="0" edit="0">
+                                                    <field name="ec_village_id"/>
+                                                    <field name="survey_no"/>
+                                                    <field name="sub_division_no"/>
+                                                </list>
+                                            </field>
+                                        </group>
+                                        <group></group>
+                                    </group>
+                                </page>
+                                <page string="Plot Details">
+                                    <group>
+                                        <group>
+                                            <field name="ec_plot_no"/>
+                                        </group>
+                                        <group>
+                                            <button name="action_plot_details" class="oe_highlight" type="object"
+                                                    string="Add"/>
+                                        </group>
+                                    </group>
+                                    <group/>
+                                    <group invisible="not plot_details_line">
+                                        <group string="Report">
+                                            <field name="plot_details_line" nolabel="1">
+                                                <list create="0" edit="0">
+                                                    <field name="ec_plot_no"/>
+                                                </list>
+                                            </field>
+                                        </group>
+                                        <group></group>
+                                    </group>
+                                </page>
+                                <page string="Flat Details">
+                                    <group>
+                                        <group>
+                                            <field name="ec_flat_no"/>
+                                        </group>
+                                        <group>
+                                            <button name="action_flat_details" class="oe_highlight" type="object"
+                                                    string="Add"/>
+                                        </group>
+                                    </group>
+                                    <group/>
+                                    <group invisible="not flat_details_line">
+
+                                        <group string="Report">
+                                            <field name="flat_details_line" nolabel="1">
+                                                <list create="0" edit="0">
+                                                    <field name="ec_flat_no"/>
+                                                </list>
+                                            </field>
+                                        </group>
+                                        <group></group>
+                                    </group>
+                                </page>
+                                <page string="House Details">
+                                    <group>
+                                        <group>
+                                            <field name="ec_door_no"/>
+                                            <field name="ec_block_no"/>
+                                        </group>
+                                        <group>
+                                            <field name="ec_ward_no"/>
+                                            <button name="action_house_details" class="oe_highlight" type="object"
+                                                    string="Add"/>
+                                        </group>
+                                    </group>
+                                    <group/>
+                                    <group invisible="not house_details_line">
+
+                                        <group string="Report">
+                                            <field name="house_details_line" nolabel="1">
+                                                <list create="0" edit="0">
+                                                    <field name="ec_door_no"/>
+                                                    <field name="ec_block_no"/>
+                                                    <field name="ec_ward_no"/>
+                                                </list>
+                                            </field>
+                                        </group>
+                                        <group></group>
+                                    </group>
+                                </page>
+
+                                <page string="Boundary Details">
+                                    <group>
+                                        <group>
+                                            <field name="ec_east"/>
+                                            <field name="ec_west"/>
+                                        </group>
+                                        <group>
+                                            <field name="ec_north"/>
+                                            <field name="ec_south"/>
+                                            <button name="action_boundary_details" class="oe_highlight" type="object"
+                                                    string="Add"/>
+                                        </group>
+                                    </group>
+                                    <group/>
+                                    <group invisible="not boundary_details_line">
+
+                                        <group string="Report">
+                                            <field name="boundary_details_line" nolabel="1">
+                                                <list create="0" edit="0">
+                                                    <field name="ec_east"/>
+                                                    <field name="ec_west"/>
+                                                    <field name="ec_north"/>
+                                                    <field name="ec_south"/>
+                                                </list>
+                                            </field>
+                                        </group>
+                                        <group></group>
+                                    </group>
+                                </page>
+
+                                <page string="Extent and Build-up Area">
+                                    <group>
+                                        <group>
+                                            <label for="total_extent"/>
+                                            <div name="total_extent_unit">
+                                                <span>
+                                                    <field name="total_extent" style="max-width:190px" class="oe_inline"/>
+                                                    <field name="extent_sqft_or_area" class="oe_inline"/>
+                                                </span>
+                                            </div>
+
+                                            <label for="undivided_share"/>
+                                            <div name="undivided_share_unit">
+                                                <span>
+                                                    <field name="undivided_share" style="max-width:190px" class="oe_inline"/>
+                                                    <field name="extent_sqft_or_area" class="oe_inline"/>
+                                                </span>
+                                            </div>
+                                        </group>
+                                        <group>
+                                            <label for="conveyed_extent"/>
+                                            <div name="conveyed_extent_unit">
+                                                <span>
+                                                    <field name="conveyed_extent" style="max-width:190px" class="oe_inline"/>
+                                                    <field name="extent_sqft_or_area" class="oe_inline"/>
+                                                </span>
+                                            </div>
+                                            <label for="build_up_area"/>
+                                            <div name="build_up_area_unit">
+                                                <span>
+                                                    <field name="build_up_area" style="max-width:190px" class="oe_inline"/>
+                                                    <field name="extent_sqft_or_area" class="oe_inline"/>
+                                                </span>
+                                            </div>
+                                        </group>
+                                    </group>
+                                </page>
+                                <page string="Additional Details">
+                                    <group>
+                                        <group>
+                                            <field name="old_survey_or_sub_div_no"/>
+                                            <field name="t_s_no"/>
+                                            <field name="father_name"/>
+                                            <field name="any_registered_document_no"/>
+                                        </group>
+                                        <group>
+                                            <field name="old_door_no"/>
+                                            <field name="name_of_declared_owner"/>
+                                            <field name="any_other_relevant_info"/>
+                                        </group>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_crm_landoc_service" model="ir.actions.act_window">
+        <field name="name">CRM Service</field>
+        <field name="res_model">crm.landoc.service</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_crm_landoc_service_root"
+              name="CRM Service"
+              parent="custom_landoc.master_data_main_menu"
+              groups="custom_landoc.group_landoc_manager"
+              action="action_crm_landoc_service"/>
+</odoo>

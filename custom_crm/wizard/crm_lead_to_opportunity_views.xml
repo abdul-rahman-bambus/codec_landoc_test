@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_crm_lead2opportunity_partner_inherit" model="ir.ui.view">
+            <field name="name">view.crm.lead2opportunity.partner.inherit</field>
+            <field name="model">crm.lead2opportunity.partner</field>
+            <field name="inherit_id" ref="crm.view_crm_lead2opportunity_partner"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='action']" position="after">
+                    <field name="action_view" nolabel="1" widget="radio"/>
+                </xpath>
+                <xpath expr="//field[@name='action']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
