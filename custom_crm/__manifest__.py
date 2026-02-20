@@ -23,7 +23,6 @@
         # ---------- views ----------------#
         'views/crm_lead.xml',
         'views/checklist_input.xml',
-        'views/hr_expense.xml',
         'views/hr_employee.xml',
         'views/account_move_views.xml',
         'views/res_partner.xml',
