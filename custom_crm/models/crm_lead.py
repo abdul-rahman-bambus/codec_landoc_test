@@ -591,8 +591,10 @@ class CrmLead(models.Model):
     @api.depends('expense_ids')
     def _expenses_total(self):
         for lead in self:
-            lead_expenses = self.env['hr.expense'].search([('lead_id', '=', self.id)])
-            lead.total_expenses = sum(lead_expenses.mapped('total_amount'))
+            expense_model = 'deal.expense' if 'deal.expense' in self.env else 'hr.expense'
+            lead_expenses = self.env[expense_model].search([('lead_id', '=', self.id)])
+            amount_field = 'amount' if expense_model == 'deal.expense' else 'total_amount'
+            lead.total_expenses = sum(lead_expenses.mapped(amount_field))
         # self.total_expenses = 0
 
     def _get_company_currency(self):
@@ -631,6 +633,16 @@ class CrmLead(models.Model):
         return invoice_action
 
     def action_view_crm_expenses(self):
+        if 'deal.expense' in self.env:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Expenses',
+                'res_model': 'deal.expense',
+                'view_mode': 'list,form',
+                'domain': [('lead_id', '=', self.id)],
+                'context': {'default_lead_id': self.id, 'default_auto_post': True},
+            }
+
         expense_action = self.env['ir.actions.actions']._for_xml_id('hr_expense.hr_expense_actions_my_all')
         expense_action['domain'] = [('lead_id', '=', self.id)]
         expense_action['context'] = {'default_lead_id': self.id, 'default_analytic_distribution': {self.analytic_account_id.id:100.0}}
