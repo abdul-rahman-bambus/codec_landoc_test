@@ -343,11 +343,11 @@
                         </div>
                     </button>
 
-                    <button type="object" class="oe_stat_button" invisible="type != 'opportunity'"
+                    <!-- <button type="object" class="oe_stat_button" invisible="type != 'opportunity'"
                             icon="fa-pencil-square-o" name="action_view_crm_expenses">
                         <field name="currency_id" invisible="1"/>
                         <field name="total_expenses" widget="statinfo" string="Expenses"/>
-                    </button>
+                    </button> -->
 
                     <button type="object" class="oe_stat_button" invisible="type != 'opportunity'"
                             icon="fa-pencil-square-o" name="action_view_crm_vendor_bills">

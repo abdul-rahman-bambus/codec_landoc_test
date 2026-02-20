@@ -123,10 +123,7 @@ class DealExpense(models.Model):
             if expense.move_id:
                 raise UserError(_('Journal entry already created for this expense.'))
 
-            move_ctx = dict(self.env.context)
-            move_ctx.pop('default_auto_post', None)
-            move_env = self.env['account.move'].with_context(move_ctx)
-            move = move_env.create(expense._prepare_move_vals())
+            move = self.env['account.move'].create(expense._prepare_move_vals())
             move.action_post()
             expense.write({'state': 'posted', 'move_id': move.id})
 
