@@ -8,7 +8,7 @@
     'sequence': '1',
     'website': 'https://bambustechnologies.in/',
     'depends': [
-        'base', 'sale', 'crm', 'partner_city_m2o', 'sale_management', 'hr_expense', 'account', 'custom_landoc',
+        'base', 'sale', 'crm', 'partner_city_m2o', 'sale_management', 'account', 'custom_landoc',
     ],
     'external_dependencies': {
         'python': ['phonenumbers'],

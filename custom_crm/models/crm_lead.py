@@ -144,10 +144,10 @@ class CrmLead(models.Model):
                                   string="Currency ")  # currency of amount currency
     total_invoiced = fields.Monetary(compute='_invoice_total', string="Total Invoiced",
                                      groups='account.group_account_invoice,account.group_account_readonly')
-    total_expenses = fields.Monetary(string="Checklist Counts", compute='_expenses_total')
+    #total_expenses = fields.Monetary(string="Checklist Counts", compute='_expenses_total')
     total_vendor_bills = fields.Monetary(string="Vendor Bills", compute='_vendor_bills_total')
     invoice_ids = fields.One2many('account.move', 'lead_id', string='Orders')
-    expense_ids = fields.One2many('hr.expense', 'lead_id', string='Expenses')
+    #expense_ids = fields.One2many('hr.expense', 'lead_id', string='Expenses')
 
     timer_start = fields.Datetime()
     timer_pause = fields.Datetime()
@@ -588,14 +588,14 @@ class CrmLead(models.Model):
             lead_invoices = self.env['account.move'].search([('lead_id', '=', self.id),('move_type', '=', 'in_invoice')])
             lead.total_vendor_bills = sum(lead_invoices.mapped('amount_total'))
 
-    @api.depends('expense_ids')
-    def _expenses_total(self):
-        for lead in self:
-            expense_model = 'deal.expense' if 'deal.expense' in self.env else 'hr.expense'
-            lead_expenses = self.env[expense_model].search([('lead_id', '=', self.id)])
-            amount_field = 'amount' if expense_model == 'deal.expense' else 'total_amount'
-            lead.total_expenses = sum(lead_expenses.mapped(amount_field))
-        # self.total_expenses = 0
+    # @api.depends('expense_ids')
+    # def _expenses_total(self):
+    #     for lead in self:
+    #         expense_model = 'deal.expense' if 'deal.expense' in self.env else 'hr.expense'
+    #         lead_expenses = self.env[expense_model].search([('lead_id', '=', self.id)])
+    #         amount_field = 'amount' if expense_model == 'deal.expense' else 'total_amount'
+    #         lead.total_expenses = sum(lead_expenses.mapped(amount_field))
+    #     # self.total_expenses = 0
 
     def _get_company_currency(self):
         for partner in self:
@@ -632,16 +632,16 @@ class CrmLead(models.Model):
         invoice_action['context'] = {'default_lead_id': self.id, 'default_move_type': 'out_invoice', 'default_partner_id': self.partner_id.id}
         return invoice_action
 
-    def action_view_crm_expenses(self):
-        if 'deal.expense' in self.env:
-            return {
-                'type': 'ir.actions.act_window',
-                'name': 'Expenses',
-                'res_model': 'deal.expense',
-                'view_mode': 'list,form',
-                'domain': [('lead_id', '=', self.id)],
-                'context': {'default_lead_id': self.id, 'default_auto_post': True},
-            }
+    # def action_view_crm_expenses(self):
+    #     if 'deal.expense' in self.env:
+    #         return {
+    #             'type': 'ir.actions.act_window',
+    #             'name': 'Expenses',
+    #             'res_model': 'deal.expense',
+    #             'view_mode': 'list,form',
+    #             'domain': [('lead_id', '=', self.id)],
+    #             'context': {'default_lead_id': self.id, 'default_auto_post': True},
+    #         }
 
         expense_action = self.env['ir.actions.actions']._for_xml_id('hr_expense.hr_expense_actions_my_all')
         expense_action['domain'] = [('lead_id', '=', self.id)]
