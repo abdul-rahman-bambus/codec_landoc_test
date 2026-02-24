@@ -7,6 +7,7 @@
     'depends': ['crm','sale','sale_crm','account','custom_crm','analytic','hr_expense'],
     'data': [
         'security/ir.model.access.csv',
+        'views/deal_expense_views.xml',
         'views/deal_finance_wizard.xml',
         'views/crm_lead_view.xml',
     ],

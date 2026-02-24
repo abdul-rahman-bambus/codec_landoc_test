@@ -29,7 +29,7 @@ class CrmLead(models.Model):
     )
 
     expense_ids = fields.One2many(
-        'hr.expense',
+        'deal.expense',
         'lead_id',
         string='Expenses'
     )
@@ -131,8 +131,8 @@ class CrmLead(models.Model):
 
             expense_amount = sum(
                 lead.expense_ids.filtered(
-                    lambda e: e.state in ('approved', 'done')
-                ).mapped('total_amount')
+                    lambda e: e.state == 'posted'
+                ).mapped('amount')
             ) + vendor_paid
 
             lead.ticket_invoiced_amount = invoiced
@@ -253,7 +253,7 @@ class CrmLead(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Log Expense',
-            'res_model': 'hr.expense',
+            'res_model': 'deal.expense',
             'view_mode': 'form',
             'target': 'new',
             'context': {

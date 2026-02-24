@@ -5,7 +5,7 @@ class CrmLead(models.Model):
     _inherit = 'crm.lead'
 
     expense_ids = fields.One2many(
-        'hr.expense',
+        'deal.expense',
         'lead_id',
         string='Expenses'
     )
@@ -125,7 +125,7 @@ class CrmLead(models.Model):
     @api.depends('payment_move_ids', 'vendor_payment_move_ids', 'invoice_ids', 'expense_ids')
     def _compute_ticket_financials(self):
         AccountMove = self.env['account.move']
-        HrExpense = self.env['hr.expense']
+        DealExpense = self.env['deal.expense']
 
         for lead in self:
             # -----------------------------
@@ -158,12 +158,12 @@ class CrmLead(models.Model):
             # -----------------------------
             # Expenses
             # -----------------------------
-            expenses = HrExpense.search([
+            expenses = DealExpense.search([
                 ('lead_id', '=', lead.id),
-                ('state', 'in', ('approved', 'done')),
+                ('state', '=', 'posted'),
             ])
             vendor_amount_total = sum(vendor_payments.mapped('amount_total')) - sum(vendor_payments.mapped('amount_residual'))
-            expense_amount = sum(expenses.mapped('total_amount') + [vendor_amount_total])
+            expense_amount = sum(expenses.mapped('amount') + [vendor_amount_total])
 
             # -----------------------------
             # Derived Values
@@ -188,7 +188,7 @@ class CrmLead(models.Model):
     @api.depends('expense_ids')
     def _compute_expense_count(self):
         for lead in self:
-            lead.expense_count = self.env['hr.expense'].search_count([
+            lead.expense_count = self.env['deal.expense'].search_count([
                 ('lead_id', '=', lead.id)
             ])
 
@@ -198,7 +198,7 @@ class CrmLead(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Log Expense',
-            'res_model': 'hr.expense',
+            'res_model': 'deal.expense',
             'view_mode': 'form',
             'target': 'new',
             'context': {

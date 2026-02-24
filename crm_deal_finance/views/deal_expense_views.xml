@@ -1,0 +1,67 @@
+<odoo>
+    <record id="view_deal_expense_tree" model="ir.ui.view">
+        <field name="name">deal.expense.tree</field>
+        <field name="model">deal.expense</field>
+        <field name="arch" type="xml">
+            <list string="Deal Expenses">
+                <field name="expense_date"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="journal_id"/>
+                <field name="payment_mode"/>
+                <field name="amount"/>
+                <field name="state"/>
+                <field name="move_id" optional="hide"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_deal_expense_form" model="ir.ui.view">
+        <field name="name">deal.expense.form</field>
+        <field name="model">deal.expense</field>
+        <field name="arch" type="xml">
+            <form string="Deal Expense">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirm" class="btn-secondary" invisible="state != 'draft'"/>
+                    <button name="action_post" type="object" string="Post" class="btn-primary" invisible="state not in ('draft', 'confirmed')"/>
+                    <button name="action_set_draft" type="object" string="Reset to Draft" invisible="state not in ('confirmed', 'cancelled')"/>
+                    <button name="action_cancel" type="object" string="Cancel" class="btn-secondary" invisible="state in ('posted', 'cancelled')"/>
+                    <button name="action_open_move" type="object" string="Journal Entry" class="btn-link" invisible="not move_id"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,posted,cancelled"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="lead_id" options="{'no_create': True}" readonly="state in ('posted', 'cancelled')"/>
+                        <field name="expense_date" readonly="state in ('posted', 'cancelled')"/>
+                        <field name="name" readonly="state in ('posted', 'cancelled')"/>
+                        <field name="partner_id" readonly="state in ('posted', 'cancelled')"/>
+                        <field name="journal_id" readonly="state in ('posted', 'cancelled')"/>
+                        <field name="payment_mode" readonly="1"/>
+                        <field name="expense_account_id" readonly="state in ('posted', 'cancelled')"/>
+                        <field name="amount" readonly="state in ('posted', 'cancelled')"/>
+                        <field name="auto_post" readonly="state != 'draft'"/>
+                        <field name="move_id" readonly="1"/>
+                        <field name="company_id" groups="base.group_multi_company" readonly="state in ('posted', 'cancelled')"/>
+                    </group>
+                    <group>
+                        <field name="notes" readonly="state in ('posted', 'cancelled')"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_deal_expense" model="ir.actions.act_window">
+        <field name="name">Deal Expenses</field>
+        <field name="res_model">deal.expense</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'default_auto_post': True}</field>
+    </record>
+
+    <menuitem id="menu_deal_expense_root"
+              name="Deal Expenses"
+              parent="crm.crm_menu_root"
+              action="action_deal_expense"
+              sequence="90"/>
+</odoo>
