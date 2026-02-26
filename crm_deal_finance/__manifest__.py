@@ -4,7 +4,7 @@
     'version': '1.0.0',
     'category': 'CRM',
     'summary': 'Execute accounting operations directly from Opportunity',
-    'depends': ['crm','sale','sale_crm','account','custom_crm','analytic'],
+    'depends': ['crm','sale','sale_crm','account','custom_crm','analytic','hr_expense'],
     'data': [
         'security/ir.model.access.csv',
         'views/deal_expense_views.xml',

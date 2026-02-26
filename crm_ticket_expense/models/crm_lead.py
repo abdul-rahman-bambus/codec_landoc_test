@@ -203,7 +203,8 @@ class CrmLead(models.Model):
             'target': 'new',
             'context': {
                 'default_lead_id': self.id,
-                'default_auto_post': True,
+                'default_employee_id': self.env.user.employee_id.id if self.env.user.employee_id else False,
+                'default_analytic_distribution': {self.analytic_account_id.id: 100.0} if self.analytic_account_id else False,
             }
         }
 

@@ -108,7 +108,7 @@ class CrmLead(models.Model):
     # COMPUTE FINANCIALS
     # -------------------------------------------------
 
-    @api.depends('invoice_ids', 'vendor_bill_ids', 'expense_ids.state', 'expense_ids.amount')
+    @api.depends('invoice_ids', 'vendor_bill_ids', 'expense_ids.state', 'expense_ids.total_amount')
     def _compute_financials(self):
         for lead in self:
 
@@ -258,7 +258,7 @@ class CrmLead(models.Model):
             'target': 'new',
             'context': {
                 'default_lead_id': self.id,
-                'default_auto_post': True,
+                'default_analytic_distribution': {self.analytic_account_id.id: 100.0} if self.analytic_account_id else False,
             }
         }
 
