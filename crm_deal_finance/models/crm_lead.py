@@ -101,14 +101,14 @@ class CrmLead(models.Model):
     )
 
     can_register_vendor_payment = fields.Boolean(
-        compute="_compute_vendor_payment_visibility"
+        compute='_compute_button_visibility'
     )
 
     # -------------------------------------------------
     # COMPUTE FINANCIALS
     # -------------------------------------------------
 
-    @api.depends('invoice_ids', 'vendor_bill_ids', 'expense_ids')
+    @api.depends('invoice_ids', 'vendor_bill_ids', 'expense_ids.state', 'expense_ids.total_amount')
     def _compute_financials(self):
         for lead in self:
 
@@ -255,9 +255,10 @@ class CrmLead(models.Model):
             'name': 'Log Expense',
             'res_model': 'hr.expense',
             'view_mode': 'form',
-            'target': 'current',
+            'target': 'new',
             'context': {
                 'default_lead_id': self.id,
+                'default_analytic_distribution': {self.analytic_account_id.id: 100.0} if self.analytic_account_id else False,
             }
         }
 

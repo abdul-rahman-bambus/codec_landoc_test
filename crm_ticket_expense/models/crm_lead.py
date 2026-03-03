@@ -200,10 +200,11 @@ class CrmLead(models.Model):
             'name': 'Log Expense',
             'res_model': 'hr.expense',
             'view_mode': 'form',
-            'target': 'current',
+            'target': 'new',
             'context': {
                 'default_lead_id': self.id,
                 'default_employee_id': self.env.user.employee_id.id if self.env.user.employee_id else False,
+                'default_analytic_distribution': {self.analytic_account_id.id: 100.0} if self.analytic_account_id else False,
             }
         }
 

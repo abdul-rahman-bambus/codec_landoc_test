@@ -101,7 +101,16 @@
 
                 <!-- EXPENSES -->
                 <group string="Landoc Expenses">
-                    <field name="expense_ids" widget="one2many_list" nolabel="1"/>
+                    <field name="expense_ids" nolabel="1" context="{'default_lead_id': id}">
+                        <list>
+                            <field name="date"/>
+                            <field name="name"/>
+                            <field name="employee_id"/>
+                            <field name="payment_mode"/>
+                            <field name="total_amount"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
                 </group>
 
                 <!-- FINANCIAL SUMMARY -->
